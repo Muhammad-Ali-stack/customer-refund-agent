@@ -266,11 +266,6 @@ The tests use a mocked LLM and need no API key.
 - **Mock data only.** Swap the dicts in `refunds.py` for real CRM and order
   APIs. The tool signatures stay the same.
 
-## License
-
-Licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
-See [NOTICE](NOTICE) for attribution to the original Google recipe.
-
 ## Disclaimer
 
 This is a demonstration project. It uses mock data and only simulates
