@@ -1,5 +1,9 @@
 # Customer Refund Operations Agent
 
+![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue)
+![Google ADK](https://img.shields.io/badge/Google%20ADK-2.x-4285F4)
+![License](https://img.shields.io/badge/license-Apache%202.0-green)
+
 A customer refund operations agent built on an **ADK 2.0 graph-based
 workflow**. It looks up the customer and order, checks refund eligibility
 with **deterministic Python rules**, explains the result, and **pauses for
@@ -18,6 +22,16 @@ from Google's `ambient-expense-agent` recipe (see [NOTICE](NOTICE)).
 | **Agent Type** | ADK 2.0 graph-based `Workflow` (function nodes + one LLM agent) |
 | **Trigger Sources** | Pub/Sub push (local: `scripts/submit_refund.py`), ADK web UI |
 | **Data** | Mock customers and orders in `refund_agent/refunds.py` |
+
+## Contents
+
+- [How It Works](#how-it-works)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started-windows--powershell)
+- [Demo Walkthrough](#demo-walkthrough)
+- [Tests](#tests)
+- [Limitations](#limitations)
+- [License](#license)
 
 ## How It Works
 
@@ -105,6 +119,25 @@ to `refunds.AUDIT_LOG`. The event types are:
 - `refund_simulated`
 - `refund_outcome`
 - `workflow_error`
+
+## Project Structure
+
+```
+refund-ops-agent/
+├── refund_agent/
+│   ├── agent.py          # ADK graph workflow: nodes, routing, review LLM agent
+│   ├── refunds.py        # Mock data, eligibility rules, refund ledger, audit log
+│   ├── config.py         # Settings read from environment / .env
+│   └── fast_api_app.py   # Backend server (port 8080) + Pub/Sub trigger
+├── frontend/
+│   ├── main.py           # Approval UI server (port 8081)
+│   └── static/approval.html
+├── scripts/
+│   └── submit_refund.py  # Send a Pub/Sub-shaped refund request locally
+├── tests/                # Unit, integration and runnability tests
+├── .env.example          # Template for your .env
+└── pyproject.toml
+```
 
 ## Getting Started (Windows / PowerShell)
 
@@ -220,6 +253,8 @@ The tests use a mocked LLM and need no API key.
 - `tests/test_integration.py`: the full HTTP flow through the trigger, the
   approval UI and `POST /run`. It covers approve, reject, ineligible requests
   never reaching approval, duplicates, LLM failure and malformed input.
+- `tests/test_runnability.py`: checks that `agent.py` imports cleanly and
+  defines the expected workflow objects.
 
 ## Limitations
 
@@ -233,12 +268,11 @@ The tests use a mocked LLM and need no API key.
 
 ## License
 
-Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
+Licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+See [NOTICE](NOTICE) for attribution to the original Google recipe.
 
 ## Disclaimer
 
 This is a demonstration project. It uses mock data and only simulates
 refunds; it is not intended for production use without proper persistence,
 authentication, and security review.
-#   c u s t o m e r - r e f u n d - a g e n t  
- 
