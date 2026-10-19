@@ -1,0 +1,71 @@
+[project]
+name = "refund-ops-agent"
+version = "0.1.0"
+description = "Customer refund operations agent on Google ADK: deterministic eligibility rules, human approval, simulated refunds."
+authors = [
+    { name = "Muhammad Ali", email = "tarbeeparental@gmail.com" },
+]
+license = { text = "Apache License 2.0" }
+requires-python = ">=3.11,<3.13"
+
+dependencies = [
+    "google-adk>=2.0.0,<3.0.0",
+    "python-dotenv>=1.0.0",
+    "uvicorn>=0.34.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.1",
+    "pytest-asyncio>=1.3.0",
+    "ruff>=0.4.6",
+]
+
+[tool.pytest.ini_options]
+pythonpath = "."
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.ruff]
+line-length = 80
+target-version = "py311"
+extend-exclude = ["frontend/.venv"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "C", "PL", "B", "UP", "RUF", "S"]
+ignore = [
+    "E501",    # Long LLM prompts and log messages need long strings
+    "PLR0913", # Tools legitimately have many parameters
+    "PLR2004", # HTTP status codes are universally understood
+    "PLC0415", # Deferred imports are used deliberately in tests
+    "PLR0911", # Rule checks return early by design
+    "PLR0912",
+    "PLR0915",
+    "C901",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/__init__.py" = ["F401"]
+"tests/**" = ["S101", "S104", "S105", "S106", "S310"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["refund_agent", "frontend"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.hatch.build.targets.wheel]
+packages = ["refund_agent"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+# Reproducible installs: resolve only packages published before this date
+# (matches the versions the project was tested with, e.g. google-adk 2.8.0).
+exclude-newer = "2026-09-10T00:00:00Z"
+
+[[tool.uv.index]]
+url = "https://pypi.org/simple/"
+default = true

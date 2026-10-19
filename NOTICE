@@ -1,0 +1,13 @@
+Refund Operations Agent
+Copyright 2026 Muhammad Ali
+
+This project is built on the "ambient-expense-agent" recipe from Google's
+ADK recipes repository (https://github.com/google/adk-recipes),
+Copyright 2026 Google LLC, licensed under the Apache License, Version 2.0.
+
+Files carrying a "Copyright 2026 Google LLC" header were derived from that
+recipe and have been modified; each says so in its header. Files carrying a
+"Copyright 2026 Muhammad Ali" header are original to this project.
+
+The whole project is distributed under the Apache License, Version 2.0
+(see LICENSE).
